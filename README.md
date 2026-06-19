@@ -69,8 +69,8 @@ createdAt, updatedAt — handled automatically by Prisma
 
 Screenshots
 
-![List view](./screenshots/list.png)
-![Add/Edit form](./screenshots/form.png)
+![List view](./screenshots/delete.png)
+![Add/Edit form](./screenshots/edit.png)
 ![View modal](./screenshots/view.png)
 
 Notes
