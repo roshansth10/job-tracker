@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Application Tracker
 
-## Getting Started
+This is a mini full-stack web app I built for the InternSathi Full Stack Internship task. It basically helps you keep track of all the jobs/internships you've applied to — you can add them, see them in a list, edit details, delete them if needed, and filter by status (like Applied, Interviewing, Offer, Rejected).
 
-First, run the development server:
+I used Next.js for both frontend and backend (API routes), PostgreSQL as the database with Prisma as ORM, and Zod for validation.
+
+## Tech Stack
+
+- Next.js (App Router) + React + TypeScript
+- Tailwind CSS for styling
+- PostgreSQL (using Neon)
+- Prisma ORM
+- Zod for form/API validation
+
+## Features
+
+- See all applications in a table — company name, job title, status, applied date
+- Click "View" to see full details of an application (notes, when it was created/updated etc.)
+- Add a new application using a form
+- Edit any existing application
+- Delete an application (asks for confirmation first so you don't delete by mistake)
+- Filter the list by status
+- Search by company name or job title
+
+## Prerequisites
+
+- Node.js 18 or above installed
+- A PostgreSQL database — I used Neon (free tier works fine)
+
+## How to set it up
+
+1. Clone this repo
+```bash
+   git clone <your-repo-url>
+   cd job-tracker
+```
+
+2. Install all dependencies
+```bash
+   npm install
+```
+
+3. Create your `.env` file (copy from `.env.example`) and add your database URL
+```bash
+   cp .env.example .env
+```
+
+4. Run the migrations to set up the database tables
+```bash
+   npx prisma migrate dev
+```
+
+## Running it locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `DATABASE_URL` — your PostgreSQL connection string (check `.env.example` for the format)
 
-## Learn More
+## API Routes
 
-To learn more about Next.js, take a look at the following resources:
+| Method | Route | What it does |
+|--------|-------|---------------|
+| GET | `/api/applications` | Get all applications (can filter using `?status=` or search using `?search=`) |
+| GET | `/api/applications/:id` | Get one application by its id |
+| POST | `/api/applications` | Add a new application |
+| PATCH | `/api/applications/:id` | Update an existing application |
+| DELETE | `/api/applications/:id` | Delete an application |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database Schema (basically)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- id — auto generated
+- companyName — required
+- jobTitle — required
+- jobType — Internship / Full_time / Part_time
+- status — Applied / Interviewing / Offer / Rejected
+- appliedDate — required
+- notes — optional
+- createdAt / updatedAt — handled automatically by Prisma
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Live Demo
+
