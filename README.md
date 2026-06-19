@@ -1,102 +1,111 @@
-# Job Application Tracker
+Application Tracker
 
-A full-stack web app to track job applications through different hiring stages — built for the InternSathi Full Stack Internship task.
+This is my submission for the InternSathi Full Stack Internship task. The idea is simple — a small web app where you can keep track of all the jobs/internships you've applied to instead of writing it down in a notebook or some random Google Sheet (which is what I was doing before lol).
 
-## Overview
+You can add an application, view all of them in a list, click on one to see full details, edit it if something changes, delete it if you want, and also filter/search through them.
 
-Lets a user record job applications with company name, job title, job type, status, applied date, and notes. Supports adding, editing, deleting, filtering by status, and searching applications.
+Tech Stack
 
-## Tech Stack
-
-- **Frontend:** Next.js 16 (App Router), React, TypeScript, Tailwind CSS
-- **Backend:** Next.js API Routes (REST)
-- **Database:** PostgreSQL (Neon)
-- **ORM:** Prisma 7
-
-## Features
-
-- View all applications in a table
-- Add a new application with form validation
-- Edit an existing application
-- Delete an application with a confirmation dialog
-- Filter by status (Applied, Interviewing, Offer, Rejected)
-- Search by company name or job title
-- Loading and error states
-- Fully typed with TypeScript
-
-## Prerequisites
-
-- Node.js 18+
-- A PostgreSQL database (e.g. [Neon](https://neon.tech))
-
-## Installation
-
-1. Clone the repo
-
-\`\`\`bash
-git clone https://github.com/roshansth10/job-tracker.git
-cd job-tracker
-\`\`\`
-
-2. Install dependencies
-
-\`\`\`bash
-npm install
-\`\`\`
-
-3. Set up environment variables
-
-\`\`\`bash
-cp .env.example .env
-\`\`\`
-
-\`.env.example\`:
-
-\`\`\`env
-DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
-\`\`\`
-
-4. Run migrations
-
-\`\`\`bash
-npx prisma migrate dev
-npx prisma generate
-\`\`\`
-
-5. Start the dev server
-
-\`\`\`bash
-npm run dev
-\`\`\`
-
-Open [http://localhost:3000](http://localhost:3000).
-
-## Database Schema
-
-\`prisma/schema.prisma\`:
-
-\`\`\`prisma
-model JobApplication {
-  id          String   @id @default(cuid())
-  company     String
-  jobTitle    String
-  jobType     String
-  status      String
-  appliedDate DateTime
-  notes       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-\`\`\`
-
-## API Endpoints
-| Method | Endpoint                | Description           |
-|--------|--------------------------|------------------------|
-| GET    | \`/api/applications\`      | Get all applications   |
-| POST   | \`/api/applications\`      | Create an application  |
-| PATCH  | \`/api/applications/:id\`  | Update an application  |
-| DELETE | \`/api/applications/:id\`  | Delete an application  |
+I went with:
 
 
-## Author
-Roshan Shrestha 
+Next.js (App Router) — used it for both frontend and backend (API routes), so didn't need a separate Express server
+React + TypeScript
+Tailwind CSS for styling, mainly because it's fast to work with
+PostgreSQL as the database (hosted on Neon, free tier)
+Prisma as the ORM
+Zod for validating form input and API request bodies
+
+
+Features
+
+
+Table view of all applications — shows company name, job title, status and applied date
+"View" button opens a modal with the full details (notes, created/updated timestamps etc.)
+Add new application through a form
+Edit an existing application
+Delete an application — added a confirm step so you don't delete something by accident
+Filter list by status (Applied / Interviewing / Offer / Rejected)
+Search by company name or job title
+
+
+Prerequisites
+
+
+Node.js 18+
+A PostgreSQL database (I used Neon, but any Postgres instance should work)
+
+
+Setup
+
+
+Clone the repo
+
+
+bash   git clone https://github.com/roshansth10/job-tracker.git
+   cd job-tracker
+
+
+Install dependencies
+
+
+bash   npm install
+
+
+Create your .env file
+
+
+bash   cp .env.example .env
+
+Then open .env and put in your own DATABASE_URL.
+
+
+Run migrations to set up the tables
+
+
+bash   npx prisma migrate dev
+
+
+Start the dev server
+
+
+bash   npm run dev
+
+Open http://localhost:3000 in the browser.
+
+Environment Variables
+
+VariableDescriptionDATABASE_URLPostgreSQL connection string — see .env.example for the format
+
+API Routes
+
+MethodRouteDescriptionGET/api/applicationsGet all applications. Supports ?status= filter and ?search= queryGET/api/applications/:idGet a single application by idPOST/api/applicationsCreate a new applicationPATCH/api/applications/:idUpdate an existing applicationDELETE/api/applications/:idDelete an application
+
+Database Schema
+
+
+id — auto generated
+companyName — required
+jobTitle — required
+jobType — enum: Internship / Full_time / Part_time
+status — enum: Applied / Interviewing / Offer / Rejected
+appliedDate — required
+notes — optional
+createdAt, updatedAt — handled automatically by Prisma
+
+
+Screenshots
+
+(add screenshots here, e.g.)
+
+![List view](./screenshots/edit.png)
+![Add/Edit form](./screenshots/delete.png)
+![View modal](./screenshots/view.png)
+
+Notes
+
+This was built within the time given for the task, so a few things like Docker setup, unit tests and live deployment were skipped to focus on getting the core CRUD + filtering + validation working properly first.
+
+Author
+
+Roshan Shrestha
