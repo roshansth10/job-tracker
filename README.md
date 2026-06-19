@@ -1,89 +1,71 @@
-# Job Application Tracker
+Application Tracker
 
-This is a mini full-stack web app I built for the InternSathi Full Stack Internship task. It basically helps you keep track of all the jobs/internships you've applied to — you can add them, see them in a list, edit details, delete them if needed, and filter by status (like Applied, Interviewing, Offer, Rejected).
+This is my submission for the InternSathi Full Stack Internship task. The idea is simple — a small web app where you can keep track of all the jobs/internships you've applied to instead of writing it down in a notebook or some random Google Sheet (which is what I was doing before lol).
 
-I used Next.js for both frontend and backend (API routes), PostgreSQL as the database with Prisma as ORM, and Zod for validation.
+You can add an application, view all of them in a list, click on one to see full details, edit it if something changes, delete it if you want, and also filter/search through them.
 
-## Tech Stack
+Tech Stack
 
-- Next.js (App Router) + React + TypeScript
-- Tailwind CSS for styling
-- PostgreSQL (using Neon)
-- Prisma ORM
-- Zod for form/API validation
+I went with:
 
-## Features
+Next.js (App Router) — used it for both frontend and backend (API routes), so didn't need a separate Express server React + TypeScript Tailwind CSS for styling, mainly because it's fast to work with PostgreSQL as the database (hosted on Neon, free tier) Prisma as the ORM Zod for validating form input and API request bodies
 
-- See all applications in a table — company name, job title, status, applied date
-- Click "View" to see full details of an application (notes, when it was created/updated etc.)
-- Add a new application using a form
-- Edit any existing application
-- Delete an application (asks for confirmation first so you don't delete by mistake)
-- Filter the list by status
-- Search by company name or job title
+Features
 
-## Prerequisites
+Table view of all applications — shows company name, job title, status and applied date "View" button opens a modal with the full details (notes, created/updated timestamps etc.) Add new application through a form Edit an existing application Delete an application — added a confirm step so you don't delete something by accident Filter list by status (Applied / Interviewing / Offer / Rejected) Search by company name or job title
 
-- Node.js 18 or above installed
-- A PostgreSQL database — I used Neon (free tier works fine)
+Prerequisites
 
-## How to set it up
+Node.js 18+ A PostgreSQL database (I used Neon, but any Postgres instance should work)
 
-1. Clone this repo
-```bash
-   git clone <your-repo-url>
-   cd job-tracker
-```
+Setup
 
-2. Install all dependencies
-```bash
-   npm install
-```
+Clone the repo
 
-3. Create your `.env` file (copy from `.env.example`) and add your database URL
-```bash
-   cp .env.example .env
-```
+bash git clone https://github.com/roshansth10/job-tracker.git cd job-tracker
 
-4. Run the migrations to set up the database tables
-```bash
-   npx prisma migrate dev
-```
+Install dependencies
 
-## Running it locally
+bash npm install
 
-```bash
-npm run dev
-```
+Create your .env file
 
-Then open `http://localhost:3000` in your browser.
+bash cp .env.example .env
 
-## Environment Variables
+Then open .env and put in your own DATABASE_URL.
 
-- `DATABASE_URL` — your PostgreSQL connection string (check `.env.example` for the format)
+Run migrations to set up the tables
 
-## API Routes
+bash npx prisma migrate dev
 
-| Method | Route | What it does |
-|--------|-------|---------------|
-| GET | `/api/applications` | Get all applications (can filter using `?status=` or search using `?search=`) |
-| GET | `/api/applications/:id` | Get one application by its id |
-| POST | `/api/applications` | Add a new application |
-| PATCH | `/api/applications/:id` | Update an existing application |
-| DELETE | `/api/applications/:id` | Delete an application |
+Start the dev server
 
-## Database Schema (basically)
+bash npm run dev
 
-- id — auto generated
-- companyName — required
-- jobTitle — required
-- jobType — Internship / Full_time / Part_time
-- status — Applied / Interviewing / Offer / Rejected
-- appliedDate — required
-- notes — optional
-- createdAt / updatedAt — handled automatically by Prisma
+Open http://localhost:3000 in the browser.
+
+Environment Variables
+
+VariableDescriptionDATABASE_URLPostgreSQL connection string — see .env.example for the format
+
+API Routes
+
+MethodRouteDescriptionGET/api/applicationsGet all applications. Supports ?status= filter and ?search= queryGET/api/applications/:idGet a single application by idPOST/api/applicationsCreate a new applicationPATCH/api/applications/:idUpdate an existing applicationDELETE/api/applications/:idDelete an application
+
+Database Schema
+
+id — auto generated companyName — required jobTitle — required jobType — enum: Internship / Full_time / Part_time status — enum: Applied / Interviewing / Offer / Rejected appliedDate — required notes — optional createdAt, updatedAt — handled automatically by Prisma
+
+Screenshots
 
 
 
-## Live Demo
+List view Add/Edit form View modal
 
+Notes
+
+This was built within the time given for the task, so a few things like Docker setup, unit tests and live deployment were skipped to focus on getting the core CRUD + filtering + validation working properly first.
+
+Author
+
+Roshan Shrestha

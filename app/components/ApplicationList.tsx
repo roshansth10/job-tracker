@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import FilterBar from "./FilterBar";
+import ViewDialog from "./ViewDialog";
 import ApplicationForm from "./ApplicationForm";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -25,6 +26,7 @@ export default function ApplicationList() {
   const [error, setError] = useState<string | null>(null);
   const [editApp, setEditApp] = useState<Application | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewApp, setViewApp] = useState<Application | null>(null);
   const [formOpen, setFormOpen] = useState(false);
 
   const statusFilter = searchParams.get("status") || "";
@@ -66,20 +68,20 @@ export default function ApplicationList() {
   };
 
   const statusColor = (status: string) => {
-  switch (status) {
-    case "Applied":
-      return "bg-slate-100 text-slate-700 border border-slate-200";
-    case "Interviewing":
-      return "bg-amber-50 text-amber-700 border border-amber-200";
-    case "Offer":
-      return "bg-emerald-50 text-emerald-700 border border-emerald-200";
-    case "Rejected":
-      return "bg-rose-50 text-rose-700 border border-rose-200";
-    default:
-      return "bg-gray-100 text-gray-700 border border-gray-200";
-  }
-};
-   
+    switch (status) {
+      case "Applied":
+        return "bg-slate-100 text-slate-700 border border-slate-200";
+      case "Interviewing":
+        return "bg-amber-50 text-amber-700 border border-amber-200";
+      case "Offer":
+        return "bg-emerald-50 text-emerald-700 border border-emerald-200";
+      case "Rejected":
+        return "bg-rose-50 text-rose-700 border border-rose-200";
+      default:
+        return "bg-gray-100 text-gray-700 border border-gray-200";
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
@@ -89,7 +91,7 @@ export default function ApplicationList() {
             setEditApp(null);
             setFormOpen(true);
           }}
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 whitespace-nowrap"
+          className="bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-900 transition shadow-sm whitespace-nowrap"
         >
           + Add Application
         </button>
@@ -157,6 +159,12 @@ export default function ApplicationList() {
                   </td>
                   <td className="px-4 py-3 text-sm text-right space-x-3">
                     <button
+                      onClick={() => setViewApp(app)}
+                      className="text-slate-600 hover:text-slate-900"
+                    >
+                      View
+                    </button>
+                    <button
                       onClick={() => {
                         setEditApp(app);
                         setFormOpen(true);
@@ -196,6 +204,10 @@ export default function ApplicationList() {
           onConfirm={handleDelete}
           onCancel={() => setDeleteId(null)}
         />
+      )}
+
+      {viewApp && (
+        <ViewDialog app={viewApp} onClose={() => setViewApp(null)} />
       )}
     </div>
   );
